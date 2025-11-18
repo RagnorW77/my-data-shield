@@ -1,61 +1,44 @@
-import { ArrowLeft, Globe, MapPin, Camera, Mic, Smartphone } from "lucide-react";
+import { ArrowLeft, Globe, TrendingUp, Clock, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
 import { useNavigate } from "react-router-dom";
 
 const DataTracking = () => {
   const navigate = useNavigate();
 
-  const dataCategories = [
+  const vpnStats = [
     {
-      icon: MapPin,
-      name: "Localisation",
-      apps: 8,
-      status: "active",
-      color: "text-destructive",
-      bgColor: "bg-destructive/10"
-    },
-    {
-      icon: Camera,
-      name: "Photos & Caméra",
-      apps: 12,
-      status: "active",
-      color: "text-warning",
-      bgColor: "bg-warning/10"
-    },
-    {
-      icon: Mic,
-      name: "Microphone",
-      apps: 5,
-      status: "limited",
-      color: "text-accent",
-      bgColor: "bg-accent/10"
-    },
-    {
-      icon: Smartphone,
-      name: "Contacts",
-      apps: 6,
-      status: "active",
+      icon: TrendingUp,
+      name: "Aujourd'hui",
+      download: "2.4 GB",
+      upload: "845 MB",
       color: "text-primary",
       bgColor: "bg-primary/10"
     },
     {
-      icon: Globe,
-      name: "Navigation Web",
-      apps: 15,
-      status: "monitored",
+      icon: Clock,
+      name: "Cette semaine",
+      download: "18.7 GB",
+      upload: "6.2 GB",
+      color: "text-accent",
+      bgColor: "bg-accent/10"
+    },
+    {
+      icon: Calendar,
+      name: "Ce mois",
+      download: "72.3 GB",
+      upload: "24.8 GB",
       color: "text-secondary",
       bgColor: "bg-secondary/10"
     }
   ];
 
-  const recentAccess = [
-    { app: "Instagram", type: "Caméra", time: "Il y a 5 min", risk: "low" },
-    { app: "Maps", type: "Localisation", time: "Il y a 12 min", risk: "medium" },
-    { app: "WhatsApp", type: "Microphone", time: "Il y a 1h", risk: "low" },
-    { app: "Chrome", type: "Navigation", time: "Il y a 2h", risk: "high" },
+  const vpnSessions = [
+    { server: "France - Paris", duration: "2h 34m", data: "1.2 GB", time: "Il y a 5 min" },
+    { server: "Allemagne - Berlin", duration: "45m", data: "340 MB", time: "Hier" },
+    { server: "Pays-Bas - Amsterdam", duration: "1h 12m", data: "680 MB", time: "Il y a 2 jours" },
+    { server: "Suisse - Zurich", duration: "3h 05m", data: "2.1 GB", time: "Il y a 3 jours" },
   ];
 
   return (
@@ -72,8 +55,8 @@ const DataTracking = () => {
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
-            <h1 className="text-lg font-bold">Suivi des Données</h1>
-            <p className="text-xs text-muted-foreground">Données collectées par les apps</p>
+            <h1 className="text-lg font-bold">Statistiques VPN</h1>
+            <p className="text-xs text-muted-foreground">Consommation de données</p>
           </div>
         </div>
       </header>
@@ -83,41 +66,38 @@ const DataTracking = () => {
         <Card className="p-5 bg-gradient-primary border-0 shadow-lg">
           <div className="flex items-center justify-between text-white">
             <div>
-              <p className="text-white/80 text-sm mb-1">Total d'applications</p>
-              <p className="text-4xl font-bold">46</p>
+              <p className="text-white/80 text-sm mb-1">Total téléchargé</p>
+              <p className="text-4xl font-bold">72.3 GB</p>
             </div>
             <div className="text-right">
-              <p className="text-white/80 text-sm mb-1">Accès aujourd'hui</p>
-              <p className="text-4xl font-bold">127</p>
+              <p className="text-white/80 text-sm mb-1">Total envoyé</p>
+              <p className="text-4xl font-bold">24.8 GB</p>
             </div>
           </div>
         </Card>
 
-        {/* Data Categories */}
+        {/* VPN Statistics */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Catégories de Données</h2>
-            <Button variant="ghost" size="sm" className="text-primary">
-              Tout voir
-            </Button>
+            <h2 className="text-lg font-semibold">Statistiques par Période</h2>
           </div>
 
           <div className="grid gap-3">
-            {dataCategories.map((category, index) => {
-              const Icon = category.icon;
+            {vpnStats.map((stat, index) => {
+              const Icon = stat.icon;
               return (
                 <Card key={index} className="p-4 hover:shadow-md transition-shadow">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3 flex-1">
-                      <div className={`w-12 h-12 rounded-xl ${category.bgColor} flex items-center justify-center`}>
-                        <Icon className={`w-6 h-6 ${category.color}`} />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold">{category.name}</h3>
-                        <p className="text-sm text-muted-foreground">{category.apps} applications</p>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-12 h-12 rounded-xl ${stat.bgColor} flex items-center justify-center`}>
+                      <Icon className={`w-6 h-6 ${stat.color}`} />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold">{stat.name}</h3>
+                      <div className="flex items-center gap-4 mt-1">
+                        <p className="text-sm text-muted-foreground">↓ {stat.download}</p>
+                        <p className="text-sm text-muted-foreground">↑ {stat.upload}</p>
                       </div>
                     </div>
-                    <Switch defaultChecked={category.status === 'active'} />
                   </div>
                 </Card>
               );
@@ -125,25 +105,22 @@ const DataTracking = () => {
           </div>
         </div>
 
-        {/* Recent Access */}
+        {/* VPN Sessions History */}
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold">Accès Récents</h2>
+          <h2 className="text-lg font-semibold">Historique des Sessions VPN</h2>
           
           <div className="space-y-2">
-            {recentAccess.map((access, index) => (
+            {vpnSessions.map((session, index) => (
               <Card key={index} className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <h4 className="font-semibold">{access.app}</h4>
-                      <Badge 
-                        variant={access.risk === 'high' ? 'destructive' : access.risk === 'medium' ? 'secondary' : 'outline'}
-                        className="text-xs"
-                      >
-                        {access.risk === 'high' ? 'Risque élevé' : access.risk === 'medium' ? 'Moyen' : 'Faible'}
-                      </Badge>
+                      <Globe className="w-4 h-4 text-primary" />
+                      <h4 className="font-semibold">{session.server}</h4>
                     </div>
-                    <p className="text-sm text-muted-foreground">{access.type} • {access.time}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Durée: {session.duration} • {session.data} • {session.time}
+                    </p>
                   </div>
                   <Button variant="ghost" size="sm">
                     Détails

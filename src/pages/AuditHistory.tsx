@@ -1,4 +1,4 @@
-import { ArrowLeft, Clock, AlertTriangle, CheckCircle, Info, XCircle } from "lucide-react";
+import { ArrowLeft, Clock, AlertTriangle, CheckCircle, Info, XCircle, Wifi, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,72 +11,78 @@ const AuditHistory = () => {
   const auditEvents = [
     {
       type: "warning",
-      icon: AlertTriangle,
-      title: "Tentative d'accès suspect détectée",
-      app: "Application inconnue",
-      description: "Tentative d'accès à vos contacts bloquée",
-      time: "Il y a 15 minutes",
-      details: "Localisation: Paris, France"
-    },
-    {
-      type: "success",
-      icon: CheckCircle,
-      title: "Paramètres de sécurité mis à jour",
-      app: "DataGuard",
-      description: "Chiffrement des données activé",
-      time: "Il y a 2 heures",
-      details: "Configuration modifiée"
-    },
-    {
-      type: "info",
-      icon: Info,
-      title: "Nouvelle application analysée",
-      app: "Instagram",
-      description: "Permissions caméra et localisation accordées",
-      time: "Il y a 5 heures",
-      details: "Risque: Faible"
+      icon: Wifi,
+      title: "Wi-Fi non sécurisé détecté",
+      app: "Réseau Public",
+      description: "Connexion à un réseau Wi-Fi non chiffré détectée",
+      time: "Il y a 5 minutes",
+      details: "SSID: CoffeeShop_Free | Risque: Élevé"
     },
     {
       type: "error",
       icon: XCircle,
-      title: "Fuite de données détectée",
-      app: "Browser",
-      description: "Cookies tiers identifiés et bloqués",
-      time: "Il y a 1 jour",
-      details: "12 trackers bloqués"
+      title: "Fuite DNS détectée",
+      app: "VPN",
+      description: "Vos requêtes DNS ne passent pas par le VPN",
+      time: "Il y a 25 minutes",
+      details: "Serveur DNS exposé: 8.8.8.8"
+    },
+    {
+      type: "success",
+      icon: Shield,
+      title: "VPN connecté avec succès",
+      app: "DataGuard VPN",
+      description: "Connexion sécurisée établie à France - Paris",
+      time: "Il y a 1 heure",
+      details: "Protocole: WireGuard | Chiffrement: AES-256"
+    },
+    {
+      type: "warning",
+      icon: AlertTriangle,
+      title: "Kill Switch activé",
+      app: "DataGuard VPN",
+      description: "Connexion internet coupée suite à la perte du VPN",
+      time: "Il y a 3 heures",
+      details: "VPN reconnecté automatiquement"
+    },
+    {
+      type: "info",
+      icon: Info,
+      title: "Chiffrement local activé",
+      app: "DataGuard",
+      description: "24 fichiers ont été chiffrés avec AES-256",
+      time: "Il y a 5 heures",
+      details: "Espace total: 2.4 GB"
     },
     {
       type: "success",
       icon: CheckCircle,
-      title: "Scan de sécurité complété",
+      title: "Rapport hebdomadaire généré",
       app: "DataGuard",
-      description: "Aucune menace détectée",
+      description: "Aucune menace détectée cette semaine",
       time: "Il y a 1 jour",
-      details: "46 applications analysées"
+      details: "Temps VPN total: 42h 15m"
     },
   ];
 
-  const dataRequests = [
+  const securityReports = [
     {
-      company: "Meta (Facebook)",
-      type: "Données personnelles",
-      status: "En cours",
-      date: "12 Nov 2025",
-      deadline: "5 jours restants"
+      title: "Rapport Hebdomadaire",
+      period: "11-18 Nov 2025",
+      status: "Sécurisé",
+      details: "42h de connexion VPN • 18.7 GB de données protégées"
     },
     {
-      company: "Google",
-      type: "Historique de navigation",
-      status: "Complété",
-      date: "08 Nov 2025",
-      deadline: "Reçu"
+      title: "Rapport Mensuel",
+      period: "Oct 2025",
+      status: "Sécurisé",
+      details: "156h de connexion VPN • 72.3 GB de données protégées"
     },
     {
-      company: "Amazon",
-      type: "Données d'achat",
-      status: "En attente",
-      date: "10 Nov 2025",
-      deadline: "7 jours restants"
+      title: "Analyse de Sécurité",
+      period: "Trimestre Q4",
+      status: "Excellent",
+      details: "Aucune fuite de données • 8 menaces bloquées"
     },
   ];
 
@@ -107,8 +113,8 @@ const AuditHistory = () => {
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
-            <h1 className="text-lg font-bold">Historique d'Audit</h1>
-            <p className="text-xs text-muted-foreground">Activités et événements</p>
+            <h1 className="text-lg font-bold">Alertes de Sécurité</h1>
+            <p className="text-xs text-muted-foreground">Événements et rapports</p>
           </div>
         </div>
       </header>
@@ -116,8 +122,8 @@ const AuditHistory = () => {
       <main className="container mx-auto px-4 py-6">
         <Tabs defaultValue="events" className="space-y-4">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="events">Événements</TabsTrigger>
-            <TabsTrigger value="requests">Demandes</TabsTrigger>
+            <TabsTrigger value="events">Alertes</TabsTrigger>
+            <TabsTrigger value="requests">Rapports</TabsTrigger>
           </TabsList>
 
           <TabsContent value="events" className="space-y-3">
@@ -157,41 +163,39 @@ const AuditHistory = () => {
           </TabsContent>
 
           <TabsContent value="requests" className="space-y-3">
-            <Card className="p-5 bg-primary/5 border-primary/20 mb-4">
-              <div className="flex items-start gap-3">
-                <Info className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+            <div className="space-y-2">
+              {securityReports.map((report, index) => (
+                <Card key={index} className="p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h4 className="font-semibold">{report.title}</h4>
+                      <p className="text-sm text-muted-foreground">{report.period}</p>
+                    </div>
+                    <Badge variant={
+                      report.status === "Excellent" ? "default" :
+                      report.status === "Sécurisé" ? "secondary" : "outline"
+                    }>
+                      {report.status}
+                    </Badge>
+                  </div>
+                  <div className="text-xs text-muted-foreground pt-2 border-t">
+                    {report.details}
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            <Card className="p-4 bg-accent/5 border-accent/20">
+              <div className="flex gap-3">
+                <Shield className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-semibold mb-1">Demandes de Données RGPD</h4>
+                  <h4 className="font-semibold mb-1">Rapports de Sécurité</h4>
                   <p className="text-sm text-muted-foreground">
-                    Suivez vos demandes d'accès aux données personnelles auprès des entreprises.
+                    Consultez vos rapports hebdomadaires et mensuels pour suivre votre utilisation VPN et votre niveau de protection.
                   </p>
                 </div>
               </div>
             </Card>
-
-            {dataRequests.map((request, index) => (
-              <Card key={index} className="p-4 hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="flex-1">
-                    <h3 className="font-semibold mb-1">{request.company}</h3>
-                    <p className="text-sm text-muted-foreground">{request.type}</p>
-                  </div>
-                  <Badge 
-                    variant={request.status === 'Complété' ? 'default' : request.status === 'En cours' ? 'secondary' : 'outline'}
-                  >
-                    {request.status}
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border">
-                  <span>Demandé le {request.date}</span>
-                  <span className={request.status === 'Complété' ? 'text-accent' : ''}>{request.deadline}</span>
-                </div>
-              </Card>
-            ))}
-
-            <Button className="w-full mt-4" variant="outline">
-              Nouvelle demande RGPD
-            </Button>
           </TabsContent>
         </Tabs>
       </main>
