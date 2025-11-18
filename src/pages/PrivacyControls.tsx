@@ -1,4 +1,4 @@
-import { ArrowLeft, Shield, Lock, Eye, AlertTriangle, CheckCircle } from "lucide-react";
+import { ArrowLeft, Shield, Lock, Eye, AlertTriangle, CheckCircle, HardDrive, FileCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -9,14 +9,12 @@ import { toast } from "sonner";
 const PrivacyControls = () => {
   const navigate = useNavigate();
   const [settings, setSettings] = useState({
-    dataEncryption: true,
-    trackingPrevention: true,
-    locationPrivacy: false,
-    cameraProtection: true,
-    microphoneProtection: true,
-    contactsProtection: false,
+    localEncryption: true,
+    vpnAutoConnect: true,
+    dnsLeakProtection: true,
+    killSwitch: true,
     autoDeleteHistory: true,
-    vpnProtection: false,
+    wifiSecurityAlert: true,
   });
 
   const handleToggle = (key: keyof typeof settings) => {
@@ -28,76 +26,58 @@ const PrivacyControls = () => {
 
   const privacySettings = [
     {
-      id: 'dataEncryption',
-      icon: Lock,
-      title: "Chiffrement des Données",
-      description: "Protège vos données avec un chiffrement de bout en bout",
+      id: 'localEncryption',
+      icon: HardDrive,
+      title: "Chiffrement Local (BitLocker)",
+      description: "Chiffre tous vos fichiers stockés localement avec AES-256",
       recommended: true,
       color: "text-accent",
       bgColor: "bg-accent/10"
     },
     {
-      id: 'trackingPrevention',
+      id: 'vpnAutoConnect',
       icon: Shield,
-      title: "Anti-Tracking",
-      description: "Bloque les trackers publicitaires et analytiques",
+      title: "Connexion VPN Automatique",
+      description: "Se connecte automatiquement au VPN au démarrage",
       recommended: true,
       color: "text-primary",
       bgColor: "bg-primary/10"
     },
     {
-      id: 'locationPrivacy',
-      icon: Eye,
-      title: "Confidentialité de Localisation",
-      description: "Masque votre position GPS réelle",
-      recommended: false,
-      color: "text-secondary",
-      bgColor: "bg-secondary/10"
-    },
-    {
-      id: 'cameraProtection',
-      icon: Shield,
-      title: "Protection Caméra",
-      description: "Alerte lors d'accès non autorisés à la caméra",
-      recommended: true,
-      color: "text-accent",
-      bgColor: "bg-accent/10"
-    },
-    {
-      id: 'microphoneProtection',
-      icon: Shield,
-      title: "Protection Microphone",
-      description: "Détecte l'utilisation suspecte du microphone",
-      recommended: true,
-      color: "text-accent",
-      bgColor: "bg-accent/10"
-    },
-    {
-      id: 'contactsProtection',
+      id: 'dnsLeakProtection',
       icon: Lock,
-      title: "Protection des Contacts",
-      description: "Limite l'accès à votre carnet d'adresses",
-      recommended: false,
-      color: "text-warning",
-      bgColor: "bg-warning/10"
+      title: "Protection Fuite DNS",
+      description: "Empêche la fuite de vos requêtes DNS",
+      recommended: true,
+      color: "text-accent",
+      bgColor: "bg-accent/10"
     },
     {
-      id: 'autoDeleteHistory',
+      id: 'killSwitch',
       icon: AlertTriangle,
-      title: "Suppression Auto",
-      description: "Efface automatiquement votre historique après 30 jours",
+      title: "Kill Switch",
+      description: "Coupe internet si le VPN se déconnecte",
       recommended: true,
       color: "text-destructive",
       bgColor: "bg-destructive/10"
     },
     {
-      id: 'vpnProtection',
-      icon: Shield,
-      title: "Protection VPN",
-      description: "Chiffre votre connexion internet",
+      id: 'wifiSecurityAlert',
+      icon: Eye,
+      title: "Alerte Wi-Fi Non Sécurisé",
+      description: "Vous alerte lors de connexion à un Wi-Fi non sécurisé",
+      recommended: true,
+      color: "text-warning",
+      bgColor: "bg-warning/10"
+    },
+    {
+      id: 'autoDeleteHistory',
+      icon: FileCheck,
+      title: "Suppression Auto Historique",
+      description: "Efface automatiquement votre historique après 30 jours",
       recommended: false,
-      color: "text-primary",
-      bgColor: "bg-primary/10"
+      color: "text-secondary",
+      bgColor: "bg-secondary/10"
     },
   ];
 
@@ -119,8 +99,8 @@ const PrivacyControls = () => {
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
-            <h1 className="text-lg font-bold">Contrôles de Confidentialité</h1>
-            <p className="text-xs text-muted-foreground">Gérez vos permissions</p>
+            <h1 className="text-lg font-bold">Chiffrement & Sécurité</h1>
+            <p className="text-xs text-muted-foreground">Paramètres VPN et chiffrement</p>
           </div>
         </div>
       </header>
@@ -144,7 +124,7 @@ const PrivacyControls = () => {
 
         {/* Privacy Settings */}
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold">Paramètres de Sécurité</h2>
+          <h2 className="text-lg font-semibold">Paramètres VPN et Chiffrement</h2>
           
           <div className="space-y-2">
             {privacySettings.map((setting) => {
@@ -186,12 +166,13 @@ const PrivacyControls = () => {
           <div className="flex gap-3">
             <Shield className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
             <div>
-              <h4 className="font-semibold mb-2">Conseil de Sécurité</h4>
+              <h4 className="font-semibold mb-2">Chiffrement AES-256</h4>
               <p className="text-sm text-muted-foreground mb-3">
-                Nous recommandons d'activer au moins 6 paramètres de sécurité pour une protection optimale de vos données personnelles.
+                Votre connexion VPN utilise le chiffrement AES-256 et TLS pour une sécurité maximale. 
+                Activez le chiffrement local pour protéger vos fichiers comme avec BitLocker.
               </p>
               <Button size="sm" className="bg-primary text-primary-foreground">
-                Activer les recommandations
+                Activer toutes les protections
               </Button>
             </div>
           </div>
