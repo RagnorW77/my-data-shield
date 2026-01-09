@@ -6,6 +6,8 @@ import { Progress } from "@/components/ui/progress";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import Logo from "@/components/Logo";
+import AppFooter from "@/components/AppFooter";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -61,12 +63,10 @@ const Index = () => {
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center shadow-glow">
-              <Shield className="w-6 h-6 text-white" />
-            </div>
+          <div className="flex items-center gap-3">
+            <Logo size="md" clickable={true} />
             <div>
-              <h1 className="text-lg font-bold">DataGuard</h1>
+              <h1 className="text-lg font-bold">Shield</h1>
               <p className="text-xs text-muted-foreground">Protection des données</p>
             </div>
           </div>
@@ -258,6 +258,8 @@ const Index = () => {
           </div>
         </Card>
       </main>
+
+      <AppFooter />
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border">

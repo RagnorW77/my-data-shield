@@ -4,6 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
+import Logo from "@/components/Logo";
+import AppFooter from "@/components/AppFooter";
 
 const AuditHistory = () => {
   const navigate = useNavigate();
@@ -104,6 +106,7 @@ const AuditHistory = () => {
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center gap-3">
+          <Logo size="sm" clickable={true} />
           <Button 
             variant="ghost" 
             size="icon" 
@@ -199,6 +202,8 @@ const AuditHistory = () => {
           </TabsContent>
         </Tabs>
       </main>
+
+      <AppFooter />
     </div>
   );
 };
